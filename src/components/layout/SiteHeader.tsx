@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Mail } from 'lucide-react';
 
 export default function SiteHeader() {
   return (
@@ -26,13 +28,17 @@ export default function SiteHeader() {
           </svg>
           <span>ShivaBlogs</span>
         </Link>
-        <nav>
-          {/* Future navigation links can go here */}
-          {/* Example:
+        <nav className="flex items-center space-x-4 md:space-x-6">
           <Link href="/about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
             About
           </Link>
-          */}
+          <Link href="https://pragneshsingh.works/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            Projects
+          </Link>
+          <Button variant="outline" size="sm" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+            <Mail className="mr-2 h-4 w-4" />
+            Newsletter
+          </Button>
         </nav>
       </div>
     </header>
