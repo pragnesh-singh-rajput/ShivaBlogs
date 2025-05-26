@@ -1,29 +1,31 @@
 import type { ReactNode } from 'react';
 import SiteHeader from '@/components/layout/SiteHeader';
-import SiteSidebar from '@/components/layout/SiteSidebar';
-import { getAllPosts } from '@/lib/blog-data';
+// SiteSidebar and getAllPosts are no longer needed here
 import { Toaster } from "@/components/ui/toaster";
 
 export default function AppLayout({ children }: { children: ReactNode }) {
-  const posts = getAllPosts(); // Fetch all posts to extract tags for sidebar
+  // const posts = getAllPosts(); // No longer needed as SiteSidebar is removed
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <SiteHeader />
       <div className="container mx-auto flex-grow w-full max-w-screen-xl px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8 xl:gap-12">
-          <main className="w-full lg:w-3/4 animate-fadeIn">
+          {/* Adjusted main content width to full as sidebar is removed */}
+          <main className="w-full animate-fadeIn">
             {children}
           </main>
-          <aside className="w-full lg:w-1/4 lg:sticky lg:top-24 h-fit"> {/* Adjusted lg:top-24 for header height + padding */}
+          {/* 
+          <aside className="w-full lg:w-1/4 lg:sticky lg:top-24 h-fit">
             <div className="p-6 rounded-xl shadow-xl bg-card border border-border">
               <SiteSidebar posts={posts} />
             </div>
-          </aside>
+          </aside> 
+          */}
         </div>
       </div>
       <footer className="py-8 text-center text-sm text-muted-foreground border-t border-border/40 mt-auto">
-        © {new Date().getFullYear()} ShivaBlogs. All rights reserved.
+        © {new Date().getFullYear()} Tech Prastish. All rights reserved.
       </footer>
       <Toaster />
     </div>
