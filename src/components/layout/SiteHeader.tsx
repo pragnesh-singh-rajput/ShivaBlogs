@@ -32,9 +32,7 @@ export default function SiteHeader() {
           <Link href="/about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
             About
           </Link>
-          <Link href="https://pragneshsingh.works/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            Portfolio
-          </Link>
+          {/* Portfolio link removed */}
           <Button variant="outline" size="sm" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
             <Mail className="mr-2 h-4 w-4" />
             Newsletter
