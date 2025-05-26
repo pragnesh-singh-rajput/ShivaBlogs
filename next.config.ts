@@ -1,7 +1,9 @@
+
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
+  distDir: 'dist', // Add this line to output to the 'dist' directory
   typescript: {
     ignoreBuildErrors: true,
   },
