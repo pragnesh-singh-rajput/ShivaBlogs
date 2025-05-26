@@ -8,10 +8,27 @@ import { Mail, Search as SearchIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import type { FormEvent } from 'react';
 import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
+
 
 export default function SiteHeader() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
+  const [email, setEmail] = useState('');
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { toast } = useToast();
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -19,6 +36,35 @@ export default function SiteHeader() {
       router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
       setSearchTerm(''); // Optionally clear search term after submission
     }
+  };
+
+  const handleNewsletterSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!email.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Please enter your email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!agreedToTerms) {
+      toast({
+        title: "Validation Error",
+        description: "You must agree to the terms and conditions.",
+        variant: "destructive",
+      });
+      return;
+    }
+    // Placeholder for actual submission logic
+    console.log('Newsletter Signup:', { email, agreedToTerms });
+    toast({
+      title: "Subscribed!",
+      description: `Thank you for subscribing with ${email}.`,
+    });
+    setEmail('');
+    setAgreedToTerms(false);
+    setIsDialogOpen(false); // Close dialog on successful submission
   };
 
   return (
@@ -70,10 +116,57 @@ export default function SiteHeader() {
           <Link href="/about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
             About
           </Link>
-          <Button variant="outline" size="sm" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-            <Mail className="mr-2 h-4 w-4" />
-            Newsletter
-          </Button>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="sm" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+                <Mail className="mr-2 h-4 w-4" />
+                Newsletter
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px] bg-card border-border text-foreground">
+              <DialogHeader>
+                <DialogTitle className="text-primary">Subscribe to Our Newsletter</DialogTitle>
+                <DialogDescription className="text-muted-foreground">
+                  Get the latest insights, articles, and updates directly to your inbox. No spam, ever.
+                </DialogDescription>
+              </DialogHeader>
+              <form onSubmit={handleNewsletterSubmit}>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="email" className="text-right text-sm col-span-1">
+                      Email
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      className="col-span-3 bg-input border-input text-foreground placeholder:text-muted-foreground"
+                      required
+                    />
+                  </div>
+                  <div className="flex items-center space-x-2 col-start-2 col-span-3 mt-2">
+                    <Checkbox
+                      id="terms"
+                      checked={agreedToTerms}
+                      onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
+                      className="data-[state=checked]:bg-primary data-[state=checked]:border-primary border-input"
+                    />
+                    <Label
+                      htmlFor="terms"
+                      className="text-xs font-normal text-muted-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      I agree to the <Link href="/terms" className="underline text-accent hover:text-accent/80">terms and conditions</Link>.
+                    </Label>
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button type="submit" className="bg-accent hover:bg-accent/90 text-accent-foreground">Subscribe</Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
         </nav>
       </div>
        {/* Mobile Search Form */}
@@ -101,3 +194,5 @@ export default function SiteHeader() {
     </header>
   );
 }
+
+    
