@@ -1,5 +1,5 @@
 
-import Script from 'next/script'; // Added import for next/script
+import Script from 'next/script';
 import type {Metadata} from 'next';
 import {Geist, Geist_Mono} from 'next/font/google';
 import './globals.css';
@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'PragneshKumar S. Singh - Cyber Security',
   description: "PragneshKumar S. Singh's digital portfolio, showcasing expertise in cyber security. A harmonious blend of professionalism and approachability, inviting exploration and connection.",
+  other: {
+    "google-adsense-account": "ca-pub-6318553158118544",
+  }
 };
 
 export default function RootLayout({
@@ -31,7 +34,7 @@ export default function RootLayout({
         <Script
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6318553158118544"
           crossOrigin="anonymous"
-          strategy="afterInteractive" // Loads the script after the page is interactive
+          strategy="afterInteractive"
         />
       </body>
     </html>
