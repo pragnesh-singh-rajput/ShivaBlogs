@@ -1,3 +1,4 @@
+
 import type { ReactNode } from 'react';
 import SiteHeader from '@/components/layout/SiteHeader';
 // SiteSidebar and getAllPosts are no longer needed here
@@ -29,7 +30,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         <p>© {new Date().getFullYear()} PragneshKumar S. Singh. All rights reserved.</p>
         <p className="mt-2">
           <Link href="https://pragneshsingh.works" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
-            Visit Pragnesh Singh's Portfolio
+            Visit PragneshKumar S. Singh's Portfolio
           </Link>
         </p>
       </footer>

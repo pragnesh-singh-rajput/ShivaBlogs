@@ -15,7 +15,7 @@ export default function HomePage() {
       <div className="space-y-16"> {/* Increased spacing */}
         <header className="py-12 md:py-16 border-b-2 border-primary text-center md:text-left"> {/* Increased padding, solid primary border */}
            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-primary">
-            Pragnesh Singh
+            PragneshKumar S. Singh
           </h1>
           <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto md:mx-0">
             Cyber Security Professional & Tech Enthusiast. Dive into my latest articles, insights, and explorations. Discover more about my professional journey and projects on my portfolio.

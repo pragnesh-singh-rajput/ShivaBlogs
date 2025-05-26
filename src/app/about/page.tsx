@@ -9,7 +9,7 @@ export default function AboutPage() {
       <div className="space-y-8">
         <header className="py-8 md:py-12 border-b-2 border-primary text-center">
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary">
-            About Pragnesh Singh
+            About PragneshKumar S. Singh
           </h1>
         </header>
 
@@ -22,7 +22,7 @@ export default function AboutPage() {
           </CardHeader>
           <CardContent className="prose prose-lg prose-invert max-w-none text-foreground [&_a]:text-accent [&_a:hover]:underline [&_p]:pl-3 [&_p]:border-l-2 [&_p]:border-primary/40 [&_p]:mb-5">
             <p>
-              Hello! I&apos;m Pragnesh Singh, a dedicated Cyber Security professional with a passion for technology and its ever-evolving landscape. My journey in the tech world has been driven by a constant curiosity and a commitment to understanding and mitigating digital threats.
+              Hello! I&apos;m PragneshKumar S. Singh, a dedicated Cyber Security professional with a passion for technology and its ever-evolving landscape. My journey in the tech world has been driven by a constant curiosity and a commitment to understanding and mitigating digital threats.
             </p>
             <p>
               This blog, &quot;ShivaBlogs,&quot; serves as a platform where I share insights, articles, and explorations related to cyber security, VAPT, SOC, DFIR, and various other technology domains including cloud computing, blockchain, AI/ML, and general IT advancements.
