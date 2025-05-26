@@ -20,21 +20,31 @@ export default function AboutPage() {
               My Journey & Expertise
             </CardTitle>
           </CardHeader>
-          <CardContent className="prose prose-lg prose-invert max-w-none text-foreground [&_a]:text-accent [&_a:hover]:underline [&_p]:pl-3 [&_p]:border-l-2 [&_p]:border-primary/40 [&_p]:mb-5">
+          <CardContent className="prose prose-lg prose-invert max-w-none text-foreground [&_a]:text-accent [&_a:hover]:underline [&_p]:pl-3 [&_p]:border-l-2 [&_p]:border-primary/40 [&_p]:mb-5 [&_ul]:list-disc [&_ul]:pl-10 [&_li]:my-1">
             <p>
-              Hello! I&apos;m PragneshKumar S. Singh, a dedicated Cyber Security professional with a passion for technology and its ever-evolving landscape. My journey in the tech world has been driven by a constant curiosity and a commitment to understanding and mitigating digital threats.
+              Hello! 👋 I&apos;m PragneshKumar S. Singh, a dedicated Cyber Security professional with a passion for technology and its ever-evolving landscape. My journey in the tech world has been driven by a constant curiosity and a commitment to understanding and mitigating digital threats 🛡️.
             </p>
             <p>
-              This blog, &quot;ShivaBlogs,&quot; serves as a platform where I share insights, articles, and explorations related to cyber security, VAPT, SOC, DFIR, and various other technology domains including cloud computing, blockchain, AI/ML, and general IT advancements.
+              This blog, &quot;ShivaBlogs,&quot; serves as a platform where I share insights, articles, and explorations related to:
+            </p>
+            <ul className="my-4">
+              <li>Cyber Security 🛡️</li>
+              <li>VAPT (Vulnerability Assessment and Penetration Testing) 🧪</li>
+              <li>SOC (Security Operations Center) 🎯</li>
+              <li>DFIR (Digital Forensics and Incident Response) 🕵️&zwj;♀️</li>
+              <li>Cloud Computing ☁️</li>
+              <li>Blockchain 🔗</li>
+              <li>AI/ML 🤖</li>
+              <li>General IT Advancements 💻</li>
+            </ul>
+            <p>
+              And various other technology domains. My professional portfolio at <a href="https://pragneshsingh.works/" target="_blank" rel="noopener noreferrer">pragneshsingh.works</a> showcases a more detailed overview of my projects, skills, and professional experiences.
             </p>
             <p>
-              My professional portfolio at <a href="https://pragneshsingh.works/" target="_blank" rel="noopener noreferrer">pragneshsingh.works</a> showcases a more detailed overview of my projects, skills, and professional experiences.
+              I believe in continuous learning and sharing knowledge. Whether you&apos;re a fellow tech enthusiast, a student, or a professional in the field, I hope you find the content here valuable and thought-provoking 🤔.
             </p>
             <p>
-              I believe in continuous learning and sharing knowledge. Whether you&apos;re a fellow tech enthusiast, a student, or a professional in the field, I hope you find the content here valuable and thought-provoking.
-            </p>
-            <p>
-              Feel free to connect with me through my portfolio or explore the articles here.
+              Feel free to connect 🤝 with me through my portfolio or explore the articles here.
             </p>
           </CardContent>
         </Card>
