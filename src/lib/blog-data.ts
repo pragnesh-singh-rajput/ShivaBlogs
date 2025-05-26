@@ -1,3 +1,4 @@
+
 export interface BlogData {
   id: string;
   slug: string;
@@ -28,7 +29,7 @@ const posts: BlogData[] = [
     `,
     author: 'Shiva Dev',
     date: '2024-07-28T10:00:00Z',
-    tags: ['Next.js', 'JavaScript', 'Web Development', 'React'],
+    tags: ['Next.js', 'JavaScript', 'Web Development', 'React', 'Development', 'IT', 'Future Tech', 'Cloud', 'VAPT', 'Blockchain', 'AI/ML', 'Cyber Security'],
     imageUrl: 'https://placehold.co/800x450.png',
   },
   {
@@ -46,7 +47,7 @@ const posts: BlogData[] = [
     `,
     author: 'Shiva Dev',
     date: '2024-07-25T14:30:00Z',
-    tags: ['TailwindCSS', 'CSS', 'Frontend', 'Web Design'],
+    tags: ['TailwindCSS', 'CSS', 'Frontend', 'Web Design', 'Development', 'IT', 'Tech News', 'Cyber Security'],
     imageUrl: 'https://placehold.co/800x450.png',
   },
   {
@@ -64,7 +65,7 @@ const posts: BlogData[] = [
     `,
     author: 'Shiva Dev',
     date: '2024-07-22T09:00:00Z',
-    tags: ['TypeScript', 'React', 'JavaScript', 'Frontend'],
+    tags: ['TypeScript', 'React', 'JavaScript', 'Frontend', 'Development', 'IT', 'Cyber Security', 'SOC', 'DFIR', 'AI/ML', 'Future Tech'],
     imageUrl: 'https://placehold.co/800x450.png',
   },
 ];
@@ -82,7 +83,7 @@ export const getAllTags = (allPosts: BlogData[]): string[] => {
   allPosts.forEach(post => {
     post.tags.forEach(tag => allTagsSet.add(tag));
   });
-  return Array.from(allTagsSet).sort();
+  return Array.from(allTagsSet).sort((a, b) => a.localeCompare(b)); // Sort alphabetically for consistent order
 };
 
 export const getPostsByTag = (tag: string): BlogData[] => {
@@ -91,3 +92,4 @@ export const getPostsByTag = (tag: string): BlogData[] => {
     post.tags.some(t => t.toLowerCase() === lowerCaseTag)
   );
 };
+
