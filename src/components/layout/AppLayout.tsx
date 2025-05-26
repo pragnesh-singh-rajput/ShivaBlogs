@@ -26,7 +26,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         </div>
       </div>
       <footer className="py-8 text-center text-sm text-muted-foreground border-t border-border/40 mt-auto">
-        <p>© {new Date().getFullYear()} Tech Prastish. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} PragneshKumar S. Singh. All rights reserved.</p>
         <p className="mt-2">
           <Link href="https://pragneshsingh.works" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
             Visit Pragnesh Singh's Portfolio

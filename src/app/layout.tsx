@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Pragnesh Singh - Cyber Security | Tech Prastish',
+  title: 'PragneshKumar S. Singh - Cyber Security',
   description: "Pragnesh Singh's digital portfolio, showcasing expertise in cyber security. A harmonious blend of professionalism and approachability, inviting exploration and connection.",
 };
 
