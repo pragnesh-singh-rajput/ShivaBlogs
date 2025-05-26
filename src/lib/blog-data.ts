@@ -24,7 +24,7 @@ const postsData: Omit<BlogData, 'content'> & { contentFilePath: string }[] = [
     author: 'Shiva Dev',
     date: '2024-07-28T10:00:00Z',
     tags: ['Next.js', 'JavaScript', 'Web Development', 'React', 'Development', 'IT', 'Future Tech', 'Cloud', 'VAPT', 'Blockchain', 'AI/ML', 'Cyber Security', 'SOC', 'DFIR', 'Tech News', 'App Router', 'Server Components'],
-    imageUrl: '/images/getting-started-with-nextjs-14.png', // Updated image path
+    imageUrl: '/images/getting-started-with-nextjs-14.png', 
   },
   {
     id: '2',
@@ -35,7 +35,7 @@ const postsData: Omit<BlogData, 'content'> & { contentFilePath: string }[] = [
     author: 'Shiva Dev',
     date: '2024-07-25T14:30:00Z',
     tags: ['TailwindCSS', 'CSS', 'Frontend', 'Web Design', 'Development', 'IT', 'Tech News', 'Cyber Security', 'VAPT', 'SOC', 'DFIR', 'Cloud', 'Blockchain', 'AI/ML', 'Future Tech', 'JavaScript', 'React', 'Next.js'],
-    imageUrl: 'https://placehold.co/800x450.png',
+    imageUrl: '/images/Tailwind-CSS-A-Deep-Dive-into-Utility-First-Styling.png',
   },
   {
     id: '3',
