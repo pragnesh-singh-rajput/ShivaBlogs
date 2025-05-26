@@ -1,3 +1,4 @@
+
 import AppLayout from '@/components/layout/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { UserCircle } from 'lucide-react';
@@ -19,7 +20,7 @@ export default function AboutPage() {
               My Journey & Expertise
             </CardTitle>
           </CardHeader>
-          <CardContent className="prose prose-lg prose-invert max-w-none text-foreground/90 [&_a]:text-accent [&_a:hover]:underline">
+          <CardContent className="prose prose-lg prose-invert max-w-none text-foreground [&_a]:text-accent [&_a:hover]:underline [&_p]:pl-3 [&_p]:border-l-2 [&_p]:border-primary/40 [&_p]:mb-5">
             <p>
               Hello! I&apos;m Pragnesh Singh, a dedicated Cyber Security professional with a passion for technology and its ever-evolving landscape. My journey in the tech world has been driven by a constant curiosity and a commitment to understanding and mitigating digital threats.
             </p>
