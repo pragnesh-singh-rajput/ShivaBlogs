@@ -46,7 +46,7 @@ const postsData: Omit<BlogData, 'content'> & { contentFilePath: string }[] = [
     author: 'Shiva Dev',
     date: '2024-07-22T09:00:00Z',
     tags: ['TypeScript', 'React', 'JavaScript', 'Frontend', 'Development', 'IT', 'Cyber Security', 'SOC', 'DFIR', 'AI/ML', 'Future Tech', 'Cloud', 'Blockchain', 'Tech News', 'Next.js', 'Web Development', 'VAPT'],
-    imageUrl: 'https://placehold.co/800x450.png',
+    imageUrl: '/images/Mastering-TypeScript-for-React-Development.png',
   },
 ];
 
