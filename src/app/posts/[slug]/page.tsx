@@ -3,12 +3,13 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import AppLayout from '@/components/layout/AppLayout';
-import { blogPostsMetadata, getAllPosts, type BlogData } from '@/lib/blog-data'; // Import blogPostsMetadata
+import { blogPostsMetadata, type BlogData } from '@/lib/blog-data'; // Import blogPostsMetadata
 import { Badge } from '@/components/ui/badge';
 import { CalendarDays, UserCircle, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import fs from 'fs'; // Import fs here
 import path from 'path'; // Import path here
+import NewsletterSubscribeForm from '@/components/shared/NewsletterSubscribeForm';
 
 interface PostPageProps {
   params: {
@@ -19,7 +20,7 @@ interface PostPageProps {
 // Generate static paths for all blog posts
 export async function generateStaticParams() {
   // getAllPosts is client-safe and returns posts with contentFilePath
-  const posts = getAllPosts(); 
+  const posts = blogPostsMetadata; 
   return posts.map(post => ({ slug: post.slug }));
 }
 
@@ -121,6 +122,9 @@ export default function PostPage({ params }: PostPageProps) {
           </footer>
         )}
       </article>
+
+      <NewsletterSubscribeForm />
+
     </AppLayout>
   );
 }
