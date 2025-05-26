@@ -3,7 +3,7 @@
 
 Welcome to ShivaBlogs, the personal blog of PragneshKumar S. Singh, a Cyber Security professional and tech enthusiast. This platform is dedicated to sharing insights, articles, and explorations in the vast world of technology.
 
-![ShivaBlogs Homepage Screenshot]([https://placehold.co/800x400.png?text=ShivaBlogs+Screenshot](https://github.com/pragnesh-singh-rajput/ShivaBlogs/blob/master/src/app/Screenshot%202025-05-27%20015550.png))
+![ShivaBlogs Homepage Screenshot]([https://github.com/pragnesh-singh-rajput/ShivaBlogs/blob/master/src/app/Screenshot%202025-05-27%20015550.png])
 
 ## ✨ Key Features
 
