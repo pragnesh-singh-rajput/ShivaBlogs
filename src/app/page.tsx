@@ -10,15 +10,15 @@ export default function HomePage() {
       <div className="space-y-12">
         <header className="pb-4 mb-6 border-b-2 border-primary/30">
            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-primary">
-            The ShivaBlogs Sphere
+            Pragnesh Singh
           </h1>
           <p className="mt-3 text-lg text-muted-foreground">
-            Exploring the frontiers of technology, development, and digital creativity.
+            Cyber Security Expert. Explore my work and insights at Tech Prastish.
           </p>
         </header>
         
         {posts.length > 0 ? (
-          <div className="grid gap-8 md:gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
             {posts.map(post => <BlogPostCard key={post.id} post={post} />)}
           </div>
         ) : (
