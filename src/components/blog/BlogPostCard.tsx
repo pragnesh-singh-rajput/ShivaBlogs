@@ -13,7 +13,7 @@ interface BlogPostCardProps {
 
 export default function BlogPostCard({ post }: BlogPostCardProps) {
   return (
-    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-card border-border hover:border-primary/50 animate-fadeIn">
+    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-card border-border hover:border-primary/50">
       {post.imageUrl && (
         <Link href={`/posts/${post.slug}`} aria-label={`Read more about ${post.title}`}>
           <div className="relative w-full h-56 md:h-64 group overflow-hidden">
@@ -73,3 +73,4 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
     </Card>
   );
 }
+
