@@ -29,7 +29,7 @@ const posts: BlogData[] = [
     `,
     author: 'Shiva Dev',
     date: '2024-07-28T10:00:00Z',
-    tags: ['Next.js', 'JavaScript', 'Web Development', 'React', 'Development', 'IT', 'Future Tech', 'Cloud', 'VAPT', 'Blockchain', 'AI/ML', 'Cyber Security'],
+    tags: ['Next.js', 'JavaScript', 'Web Development', 'React', 'Development', 'IT', 'Future Tech', 'Cloud', 'VAPT', 'Blockchain', 'AI/ML', 'Cyber Security', 'SOC', 'DFIR', 'Tech News'],
     imageUrl: 'https://placehold.co/800x450.png',
   },
   {
@@ -47,7 +47,7 @@ const posts: BlogData[] = [
     `,
     author: 'Shiva Dev',
     date: '2024-07-25T14:30:00Z',
-    tags: ['TailwindCSS', 'CSS', 'Frontend', 'Web Design', 'Development', 'IT', 'Tech News', 'Cyber Security'],
+    tags: ['TailwindCSS', 'CSS', 'Frontend', 'Web Design', 'Development', 'IT', 'Tech News', 'Cyber Security', 'VAPT', 'SOC', 'DFIR', 'Cloud', 'Blockchain', 'AI/ML', 'Future Tech', 'JavaScript', 'React', 'Next.js'],
     imageUrl: 'https://placehold.co/800x450.png',
   },
   {
@@ -65,7 +65,7 @@ const posts: BlogData[] = [
     `,
     author: 'Shiva Dev',
     date: '2024-07-22T09:00:00Z',
-    tags: ['TypeScript', 'React', 'JavaScript', 'Frontend', 'Development', 'IT', 'Cyber Security', 'SOC', 'DFIR', 'AI/ML', 'Future Tech'],
+    tags: ['TypeScript', 'React', 'JavaScript', 'Frontend', 'Development', 'IT', 'Cyber Security', 'SOC', 'DFIR', 'AI/ML', 'Future Tech', 'Cloud', 'Blockchain', 'Tech News', 'Next.js', 'Web Development', 'VAPT'],
     imageUrl: 'https://placehold.co/800x450.png',
   },
 ];
@@ -83,7 +83,7 @@ export const getAllTags = (allPosts: BlogData[]): string[] => {
   allPosts.forEach(post => {
     post.tags.forEach(tag => allTagsSet.add(tag));
   });
-  return Array.from(allTagsSet).sort((a, b) => a.localeCompare(b)); // Sort alphabetically for consistent order
+  return Array.from(allTagsSet).sort((a, b) => a.localeCompare(b));
 };
 
 export const getPostsByTag = (tag: string): BlogData[] => {
@@ -93,3 +93,17 @@ export const getPostsByTag = (tag: string): BlogData[] => {
   );
 };
 
+export const searchPosts = (query: string): BlogData[] => {
+  if (!query.trim()) {
+    return [];
+  }
+  const lowerCaseQuery = query.toLowerCase();
+  // A more robust search might involve stripping HTML from content or having a plain text version.
+  // For now, this simple inclusion check will work.
+  return getAllPosts().filter(post =>
+    post.title.toLowerCase().includes(lowerCaseQuery) ||
+    post.excerpt.toLowerCase().includes(lowerCaseQuery) ||
+    post.content.toLowerCase().includes(lowerCaseQuery) || // Searching raw HTML content
+    post.tags.some(tag => tag.toLowerCase().includes(lowerCaseQuery))
+  );
+};

@@ -1,8 +1,26 @@
+
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Mail } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Mail, Search as SearchIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import type { FormEvent } from 'react';
+import { useState } from 'react';
 
 export default function SiteHeader() {
+  const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (searchTerm.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+      setSearchTerm(''); // Optionally clear search term after submission
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 max-w-screen-xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -28,17 +46,58 @@ export default function SiteHeader() {
           </svg>
           <span>ShivaBlogs</span>
         </Link>
-        <nav className="flex items-center space-x-4 md:space-x-6">
+        <nav className="flex items-center space-x-2 md:space-x-4">
+          {/* Desktop Search Form */}
+          <form onSubmit={handleSearchSubmit} className="relative hidden md:flex items-center">
+            <Input
+              type="search"
+              placeholder="Search articles..."
+              className="h-9 pr-10 sm:w-40 md:w-48 lg:w-56 rounded-md bg-muted/60 border-border/70 focus:border-primary focus:ring-primary text-sm"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              aria-label="Search articles"
+            />
+            <Button
+              type="submit"
+              variant="ghost"
+              size="icon"
+              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground hover:text-primary"
+              aria-label="Submit search"
+            >
+              <SearchIcon className="h-4 w-4" />
+            </Button>
+          </form>
           <Link href="/about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
             About
           </Link>
-          {/* Portfolio link removed */}
           <Button variant="outline" size="sm" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
             <Mail className="mr-2 h-4 w-4" />
             Newsletter
           </Button>
         </nav>
       </div>
+       {/* Mobile Search Form */}
+       <div className="md:hidden px-4 pb-3 pt-1 border-t border-border/40">
+          <form onSubmit={handleSearchSubmit} className="relative flex items-center w-full">
+            <Input
+              type="search"
+              placeholder="Search articles..."
+              className="h-9 w-full pr-10 rounded-md bg-muted/60 border-border/70 focus:border-primary focus:ring-primary text-sm"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              aria-label="Search articles"
+            />
+            <Button
+              type="submit"
+              variant="ghost"
+              size="icon"
+              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-muted-foreground hover:text-primary"
+              aria-label="Submit search"
+            >
+              <SearchIcon className="h-4 w-4" />
+            </Button>
+          </form>
+        </div>
     </header>
   );
 }
