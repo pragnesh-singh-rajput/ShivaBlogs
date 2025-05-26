@@ -146,7 +146,7 @@ export default function SiteHeader() {
                       required
                     />
                   </div>
-                  <div className="flex items-center space-x-2 col-start-2 col-span-3 mt-2">
+                  <div className="flex items-center space-x-2 mt-2"> {/* Removed col-start-2 col-span-3 */}
                     <Checkbox
                       id="terms"
                       checked={agreedToTerms}
