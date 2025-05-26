@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import SiteHeader from '@/components/layout/SiteHeader';
 // SiteSidebar and getAllPosts are no longer needed here
 import { Toaster } from "@/components/ui/toaster";
+import Link from 'next/link';
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   // const posts = getAllPosts(); // No longer needed as SiteSidebar is removed
@@ -25,7 +26,12 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         </div>
       </div>
       <footer className="py-8 text-center text-sm text-muted-foreground border-t border-border/40 mt-auto">
-        © {new Date().getFullYear()} Tech Prastish. All rights reserved.
+        <p>© {new Date().getFullYear()} Tech Prastish. All rights reserved.</p>
+        <p className="mt-2">
+          <Link href="https://pragneshsingh.works" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+            Visit Pragnesh Singh's Portfolio
+          </Link>
+        </p>
       </footer>
       <Toaster />
     </div>
