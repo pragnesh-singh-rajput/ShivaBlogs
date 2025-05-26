@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'ShivaBlogs - Tech Insights and Development',
-  description: 'A blog by Shiva Dev exploring Next.js, TailwindCSS, TypeScript, and more.',
+  title: 'Pragnesh Singh - Cyber Security | Tech Prastish',
+  description: "Pragnesh Singh's digital portfolio, showcasing expertise in cyber security. A harmonious blend of professionalism and approachability, inviting exploration and connection.",
 };
 
 export default function RootLayout({
