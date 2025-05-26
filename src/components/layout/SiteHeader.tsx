@@ -28,17 +28,18 @@ export default function SiteHeader() {
   const [email, setEmail] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (searchTerm.trim()) {
       router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
-      setSearchTerm(''); // Optionally clear search term after submission
+      setSearchTerm(''); 
     }
   };
 
-  const handleNewsletterSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleNewsletterSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!email.trim()) {
       toast({
@@ -56,15 +57,44 @@ export default function SiteHeader() {
       });
       return;
     }
-    // Placeholder for actual submission logic
-    console.log('Newsletter Signup:', { email, agreedToTerms });
-    toast({
-      title: "Subscribed!",
-      description: `Thank you for subscribing with ${email}.`,
-    });
-    setEmail('');
-    setAgreedToTerms(false);
-    setIsDialogOpen(false); // Close dialog on successful submission
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast({
+          title: "Subscribed!",
+          description: result.message || `Thank you for subscribing with ${email}.`,
+        });
+        setEmail('');
+        setAgreedToTerms(false);
+        setIsDialogOpen(false);
+      } else {
+        toast({
+          title: "Subscription Failed",
+          description: result.error || "Could not subscribe. Please try again later.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -93,7 +123,6 @@ export default function SiteHeader() {
           <span>ShivaBlogs</span>
         </Link>
         <nav className="flex items-center space-x-2 md:space-x-4">
-          {/* Desktop Search Form */}
           <form onSubmit={handleSearchSubmit} className="relative hidden md:flex items-center">
             <Input
               type="search"
@@ -144,6 +173,7 @@ export default function SiteHeader() {
                       placeholder="you@example.com"
                       className="bg-input border-input text-foreground placeholder:text-muted-foreground"
                       required
+                      disabled={isSubmitting}
                     />
                   </div>
                   <div className="flex items-center space-x-2 mt-2">
@@ -152,6 +182,7 @@ export default function SiteHeader() {
                       checked={agreedToTerms}
                       onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
                       className="data-[state=checked]:bg-primary data-[state=checked]:border-primary border-input"
+                      disabled={isSubmitting}
                     />
                     <Label
                       htmlFor="terms"
@@ -162,14 +193,15 @@ export default function SiteHeader() {
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button type="submit" className="bg-accent hover:bg-accent/90 text-accent-foreground">Subscribe</Button>
+                  <Button type="submit" className="bg-accent hover:bg-accent/90 text-accent-foreground" disabled={isSubmitting}>
+                    {isSubmitting ? 'Subscribing...' : 'Subscribe'}
+                  </Button>
                 </DialogFooter>
               </form>
             </DialogContent>
           </Dialog>
         </nav>
       </div>
-       {/* Mobile Search Form */}
        <div className="md:hidden px-4 pb-3 pt-1 border-t border-border/40">
           <form onSubmit={handleSearchSubmit} className="relative flex items-center w-full">
             <Input
@@ -194,4 +226,3 @@ export default function SiteHeader() {
     </header>
   );
 }
-    
