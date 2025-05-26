@@ -132,8 +132,8 @@ export default function SiteHeader() {
               </DialogHeader>
               <form onSubmit={handleNewsletterSubmit}>
                 <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="email" className="text-left text-sm col-span-1"> {/* Changed text-right to text-left */}
+                  <div className="grid grid-cols-[auto_1fr] items-center gap-4">
+                    <Label htmlFor="email" className="text-left text-sm">
                       Email
                     </Label>
                     <Input
@@ -142,7 +142,7 @@ export default function SiteHeader() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="you@example.com"
-                      className="col-span-3 bg-input border-input text-foreground placeholder:text-muted-foreground"
+                      className="bg-input border-input text-foreground placeholder:text-muted-foreground"
                       required
                     />
                   </div>
