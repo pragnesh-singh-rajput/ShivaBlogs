@@ -43,7 +43,7 @@ function SearchResultsContent() {
       </div>
 
       <header className="pb-6 mb-8 border-b-2 border-primary/30">
-        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-primary flex items-center">
+        <h1 className="font-mono text-3xl md:text-4xl font-extrabold tracking-tight text-primary flex items-center">
           <SearchIcon className="h-8 w-8 mr-3 text-accent" />
           {query ? <>Search Results for: <span className="text-accent ml-2">&quot;{query}&quot;</span></> : 'Search Articles'}
         </h1>
@@ -73,7 +73,7 @@ function SearchResultsContent() {
         <Card className="border-border/50 shadow-lg bg-card">
           <CardContent className="text-center py-12 md:py-16">
             <Frown className="h-16 w-16 mx-auto text-muted-foreground mb-6" />
-            <h2 className="text-2xl md:text-3xl font-semibold text-primary mb-3">No Results Found</h2>
+            <h2 className="text-2xl md:text-3xl font-semibold text-primary mb-3 font-mono">No Results Found</h2>
             <p className="mt-2 text-foreground/80 max-w-md mx-auto">
               {query ? `Sorry, we couldn't find any articles matching "${query}". Try a different search term.` : 'Please enter a search term to find articles.'}
             </p>
@@ -106,7 +106,7 @@ function LoadingState() {
         </Button>
       </div>
       <header className="pb-6 mb-8 border-b-2 border-primary/30">
-        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-primary flex items-center">
+        <h1 className="font-mono text-3xl md:text-4xl font-extrabold tracking-tight text-primary flex items-center">
           <SearchIcon className="h-8 w-8 mr-3 text-accent" />
           Loading Search Results...
         </h1>

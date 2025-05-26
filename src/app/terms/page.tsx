@@ -8,7 +8,7 @@ export default function TermsAndConditionsPage() {
     <AppLayout>
       <div className="space-y-8">
         <header className="py-8 md:py-12 border-b-2 border-primary text-center">
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary">
+          <h1 className="font-mono text-4xl sm:text-5xl font-extrabold tracking-tight text-primary">
             Terms and Conditions
           </h1>
           <p className="mt-3 text-lg text-muted-foreground">
@@ -18,7 +18,7 @@ export default function TermsAndConditionsPage() {
 
         <Card className="shadow-xl border-border/70 bg-card">
           <CardHeader>
-            <CardTitle className="flex items-center text-2xl text-primary">
+            <CardTitle className="font-mono flex items-center text-2xl text-primary">
               <FileText className="mr-3 h-8 w-8" />
               Our Commitment to You
             </CardTitle>
@@ -32,7 +32,7 @@ export default function TermsAndConditionsPage() {
 
         <Card className="shadow-xl border-border/70 bg-card">
           <CardHeader>
-            <CardTitle className="flex items-center text-2xl text-primary">
+            <CardTitle className="font-mono flex items-center text-2xl text-primary">
               <ShieldCheck className="mr-3 h-8 w-8" />
               Data Collection and Usage
             </CardTitle>
@@ -68,7 +68,7 @@ export default function TermsAndConditionsPage() {
 
         <Card className="shadow-xl border-border/70 bg-card">
           <CardHeader>
-            <CardTitle className="flex items-center text-2xl text-primary">
+            <CardTitle className="font-mono flex items-center text-2xl text-primary">
               <Users className="mr-3 h-8 w-8" />
               Data Sharing and Third Parties
             </CardTitle>
@@ -97,7 +97,7 @@ export default function TermsAndConditionsPage() {
         
         <Card className="shadow-xl border-border/70 bg-card">
           <CardHeader>
-            <CardTitle className="flex items-center text-2xl text-primary">
+            <CardTitle className="font-mono flex items-center text-2xl text-primary">
               <FileText className="mr-3 h-8 w-8" />
               User Responsibilities
             </CardTitle>
@@ -114,7 +114,7 @@ export default function TermsAndConditionsPage() {
 
         <Card className="shadow-xl border-border/70 bg-card">
           <CardHeader>
-            <CardTitle className="flex items-center text-2xl text-primary">
+            <CardTitle className="font-mono flex items-center text-2xl text-primary">
               <FileText className="mr-3 h-8 w-8" />
               Intellectual Property
             </CardTitle>
@@ -128,7 +128,7 @@ export default function TermsAndConditionsPage() {
 
         <Card className="shadow-xl border-border/70 bg-card">
           <CardHeader>
-            <CardTitle className="flex items-center text-2xl text-primary">
+            <CardTitle className="font-mono flex items-center text-2xl text-primary">
               <FileText className="mr-3 h-8 w-8" />
               Changes to These Terms
             </CardTitle>
@@ -142,7 +142,7 @@ export default function TermsAndConditionsPage() {
 
         <Card className="shadow-xl border-border/70 bg-card">
           <CardHeader>
-            <CardTitle className="flex items-center text-2xl text-primary">
+            <CardTitle className="font-mono flex items-center text-2xl text-primary">
               <Mail className="mr-3 h-8 w-8" />
               Contact Us
             </CardTitle>
@@ -157,5 +157,4 @@ export default function TermsAndConditionsPage() {
     </AppLayout>
   );
 }
-
     

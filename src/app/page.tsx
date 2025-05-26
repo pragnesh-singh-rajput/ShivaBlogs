@@ -14,7 +14,7 @@ export default function HomePage() {
     <AppLayout>
       <div className="space-y-16"> {/* Increased spacing */}
         <header className="py-12 md:py-16 border-b-2 border-primary text-center md:text-left"> {/* Increased padding, solid primary border */}
-           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-primary">
+           <h1 className="font-mono text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-primary">
             PragneshKumar S. Singh
           </h1>
           <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto md:mx-0">
@@ -35,7 +35,7 @@ export default function HomePage() {
           <Card className="border-border/50 shadow-lg">
             <CardContent className="text-center py-12 md:py-16">
               <Inbox className="h-16 w-16 mx-auto text-muted-foreground mb-6" />
-              <h2 className="text-2xl md:text-3xl font-semibold text-primary mb-3">No Blog Posts Yet</h2>
+              <h2 className="text-2xl md:text-3xl font-semibold text-primary mb-3 font-mono">No Blog Posts Yet</h2>
               <p className="mt-2 text-foreground/80 max-w-md mx-auto">
                 Stay tuned for insightful articles, tech deep dives, and cybersecurity updates! New content is coming soon.
               </p>

@@ -39,7 +39,7 @@ export default function PostPage({ params }: PostPageProps) {
       </div>
       <article className="bg-card p-6 sm:p-8 md:p-10 rounded-xl shadow-xl border border-border">
         <header className="mb-8">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary mb-4 leading-tight">{post.title}</h1>
+          <h1 className="font-mono text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary mb-4 leading-tight">{post.title}</h1>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <UserCircle className="h-5 w-5" />
@@ -67,13 +67,20 @@ export default function PostPage({ params }: PostPageProps) {
         )}
         
         <div
-          className="prose prose-sm sm:prose-base lg:prose-lg prose-invert max-w-none text-foreground/90 [&_h2]:text-primary [&_h3]:text-primary/90 [&_a]:text-accent [&_a:hover]:underline [&_pre]:bg-muted/50 [&_pre_code]:text-foreground [&_code]:bg-muted/50 [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_strong]:text-foreground"
+          className="prose prose-sm sm:prose-base lg:prose-lg prose-invert max-w-none text-foreground/90 
+                     [&_h2]:text-primary [&_h2]:font-mono 
+                     [&_h3]:text-primary/90 [&_h3]:font-mono
+                     [&_a]:text-accent [&_a:hover]:underline 
+                     [&_pre]:bg-muted/70 [&_pre]:border [&_pre]:border-primary/40 [&_pre]:shadow-lg [&_pre]:rounded-md [&_pre]:font-mono
+                     [&_pre_code]:text-foreground 
+                     [&_code]:bg-muted/50 [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono
+                     [&_strong]:text-foreground"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
         {post.tags.length > 0 && (
           <footer className="mt-12 pt-8 border-t border-border/50">
-            <h3 className="text-lg font-semibold mb-4 text-primary">Tags</h3>
+            <h3 className="text-lg font-semibold mb-4 text-primary font-mono">Tags</h3>
             <div className="flex flex-wrap gap-2">
               {post.tags.map(tag => (
                  <Link key={tag} href={`/tags/${encodeURIComponent(tag.toLowerCase())}`}>

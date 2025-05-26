@@ -120,7 +120,7 @@ export default function SiteHeader() {
               fill="currentColor"
             />
           </svg>
-          <span>ShivaBlogs</span>
+          <span className="font-mono">ShivaBlogs</span>
         </Link>
         <nav className="flex items-center space-x-2 md:space-x-4">
           <form onSubmit={handleSearchSubmit} className="relative hidden md:flex items-center">

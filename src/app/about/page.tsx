@@ -8,14 +8,14 @@ export default function AboutPage() {
     <AppLayout>
       <div className="space-y-8">
         <header className="py-8 md:py-12 border-b-2 border-primary text-center">
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-primary">
+          <h1 className="font-mono text-4xl sm:text-5xl font-extrabold tracking-tight text-primary">
             About PragneshKumar S. Singh
           </h1>
         </header>
 
         <Card className="shadow-xl border-border/70 bg-card">
           <CardHeader>
-            <CardTitle className="flex items-center text-2xl text-primary">
+            <CardTitle className="font-mono flex items-center text-2xl text-primary">
               <UserCircle className="mr-3 h-8 w-8" />
               My Journey & Expertise
             </CardTitle>

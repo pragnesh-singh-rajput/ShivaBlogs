@@ -31,7 +31,7 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
       )}
       <CardHeader className="p-6">
         <Link href={`/posts/${post.slug}`}>
-          <CardTitle className="text-2xl lg:text-3xl font-bold text-primary hover:underline leading-tight">
+          <CardTitle className="font-mono text-2xl lg:text-3xl font-bold text-primary hover:underline leading-tight">
             {post.title}
           </CardTitle>
         </Link>

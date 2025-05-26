@@ -42,7 +42,7 @@ export default function TagPage({ params }: TagPageProps) {
       </div>
       <div className="space-y-10">
         <header className="pb-4 mb-6 border-b-2 border-primary/30">
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-primary flex items-center">
+          <h1 className="font-mono text-3xl md:text-4xl font-extrabold tracking-tight text-primary flex items-center">
             <TagIcon className="h-8 w-8 mr-3 text-accent" />
             Posts tagged with: <span className="ml-2 text-accent capitalize">{decodedTag}</span>
           </h1>
@@ -54,7 +54,7 @@ export default function TagPage({ params }: TagPageProps) {
           </div>
         ) : (
           <div className="text-center py-12">
-            <h2 className="text-2xl font-semibold text-muted-foreground">No Posts Found</h2>
+            <h2 className="font-mono text-2xl font-semibold text-muted-foreground">No Posts Found</h2>
             <p className="mt-2 text-foreground/70">
               There are currently no blog posts tagged with "{decodedTag}".
             </p>
