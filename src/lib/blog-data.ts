@@ -1,119 +1,26 @@
 
+import fs from 'fs';
+import path from 'path';
+
 export interface BlogData {
   id: string;
   slug: string;
   title: string;
   excerpt: string;
-  content: string; 
+  content: string; // Will store filename initially, then actual content after reading
   author: string;
   date: string; 
   tags: string[];
   imageUrl: string;
 }
 
-const posts: BlogData[] = [
+const postsData: Omit<BlogData, 'content'> & { contentFilePath: string }[] = [
   {
     id: '1',
     slug: 'getting-started-with-nextjs',
     title: 'Getting Started with Next.js 14',
     excerpt: 'A comprehensive guide to setting up your first Next.js 14 application with App Router, exploring its core concepts and features.',
-    content: `
-      <p class="mb-4">Next.js 14 continues to build upon the foundations laid by its predecessors, offering a powerful and flexible framework for building modern web applications. This guide will walk you through setting up a new Next.js 14 project, dive deep into the App Router, and explore its core concepts such as Server Components, layouts, pages, data fetching, and more.</p>
-      
-      <h2 class="text-2xl font-semibold mt-6 mb-3 text-primary">Prerequisites</h2>
-      <p class="mb-4">Before we begin, ensure you have the following installed:</p>
-      <ul class="list-disc pl-5 mb-4">
-        <li>Node.js (version 18.17 or later recommended). You can download it from <a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">nodejs.org</a>.</li>
-        <li>A basic understanding of React and JavaScript.</li>
-      </ul>
-
-      <h2 class="text-2xl font-semibold mt-6 mb-3 text-primary">Project Setup</h2>
-      <p class="mb-4">Creating a new Next.js application is straightforward using the official command-line tool. Open your terminal and run:</p>
-      <pre class="bg-muted p-3 rounded-md my-4 text-sm overflow-x-auto"><code class="text-foreground/90">npx create-next-app@latest my-next-app</code></pre>
-      <p class="mb-4">You'll be prompted with a few questions, such as whether to use TypeScript, ESLint, Tailwind CSS, etc. For this guide, we'll assume you've chosen the defaults, including TypeScript and the App Router.</p>
-      <p class="mb-4">Once the installation is complete, navigate to your project directory:</p>
-      <pre class="bg-muted p-3 rounded-md my-4 text-sm overflow-x-auto"><code class="text-foreground/90">cd my-next-app</code></pre>
-      <p class="mb-4">And start the development server:</p>
-      <pre class="bg-muted p-3 rounded-md my-4 text-sm overflow-x-auto"><code class="text-foreground/90">npm run dev</code></pre>
-      <p class="mb-4">Open your browser to <code class="bg-muted px-1 rounded text-foreground/90">http://localhost:3000</code> to see your new Next.js app in action!</p>
-
-      <h2 class="text-2xl font-semibold mt-6 mb-3 text-primary">Understanding the App Router</h2>
-      <p class="mb-4">The App Router, introduced in Next.js 13 and refined in version 14, is a paradigm shift from the older Pages Router. It leverages React Server Components by default and offers a more intuitive way to structure your application through file-system-based routing within the <code class="bg-muted px-1 rounded text-foreground/90">app</code> directory.</p>
-      <p class="mb-4">Key benefits include improved performance by reducing client-side JavaScript, better data fetching capabilities, and enhanced support for layouts and streaming.</p>
-      <p class="mb-4">Explore more about the fundamentals in the <a href="https://nextjs.org/docs/app/building-your-application/routing" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Next.js Routing Documentation</a>.</p>
-
-      <h3 class="text-xl font-semibold mt-5 mb-2 text-primary/90">Core Concepts of the App Router</h3>
-      
-      <h4 class="text-lg font-semibold mt-4 mb-2 text-primary/80">1. Server Components by Default</h4>
-      <p class="mb-4">Components within the <code class="bg-muted px-1 rounded text-foreground/90">app</code> directory are React Server Components (RSCs) by default. This means they run on the server, allowing them to directly access backend resources (like databases) and render HTML that is sent to the client. This reduces the amount of JavaScript bundled and sent to the browser, leading to faster initial page loads. Read more on <a href="https://nextjs.org/docs/app/building-your-application/rendering/server-components" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Server Components</a>.</p>
-
-      <h4 class="text-lg font-semibold mt-4 mb-2 text-primary/80">2. Client Components</h4>
-      <p class="mb-4">For interactivity, event listeners (like <code class="bg-muted px-1 rounded text-foreground/90">onClick</code>), or browser-only APIs, you'll need Client Components. You can opt-in to client-side rendering by adding the <code class="bg-muted px-1 rounded text-foreground/90">"use client"</code> directive at the top of your component file. Client Components are rendered on the server for the initial load (SSR/SSG) and then "hydrated" on the client to become interactive. Learn when to use them in the <a href="https://nextjs.org/docs/app/building-your-application/rendering/client-components" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Client Components documentation</a>.</p>
-
-      <h4 class="text-lg font-semibold mt-4 mb-2 text-primary/80">3. Pages (<code class="bg-muted px-1 rounded text-foreground/90">page.tsx</code>)</h4>
-      <p class="mb-4">A <code class="bg-muted px-1 rounded text-foreground/90">page.tsx</code> file defines the unique UI for a specific route segment. For example, <code class="bg-muted px-1 rounded text-foreground/90">app/dashboard/page.tsx</code> maps to the <code class="bg-muted px-1 rounded text-foreground/90">/dashboard</code> URL. Each page is a Server Component by default. See <a href="https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#pages" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Pages documentation</a>.</p>
-
-      <h4 class="text-lg font-semibold mt-4 mb-2 text-primary/80">4. Layouts (<code class="bg-muted px-1 rounded text-foreground/90">layout.tsx</code>)</h4>
-      <p class="mb-4">A <code class="bg-muted px-1 rounded text-foreground/90">layout.tsx</code> file defines a shared UI that wraps multiple pages or segments. Layouts preserve state, remain interactive, and do not re-render when navigating between child segments. For example, <code class="bg-muted px-1 rounded text-foreground/90">app/layout.tsx</code> is the root layout for your entire application. You can nest layouts, e.g., <code class="bg-muted px-1 rounded text-foreground/90">app/dashboard/layout.tsx</code>. Details can be found in the <a href="https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Layouts documentation</a>.</p>
-
-      <h4 class="text-lg font-semibold mt-4 mb-2 text-primary/80">5. File-System Routing Conventions</h4>
-      <p class="mb-4">The App Router uses a set of special file names to create UI with specific behavior:</p>
-      <ul class="list-disc pl-5 mb-4">
-        <li><code class="bg-muted px-1 rounded text-foreground/90">page.tsx</code>: Creates a publicly accessible URL path.</li>
-        <li><code class="bg-muted px-1 rounded text-foreground/90">layout.tsx</code>: Defines shared UI for a segment and its children.</li>
-        <li><code class="bg-muted px-1 rounded text-foreground/90">loading.tsx</code>: Creates loading UI for a segment using React Suspense. See <a href="https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Loading UI documentation</a>.</li>
-        <li><code class="bg-muted px-1 rounded text-foreground/90">error.tsx</code>: Defines error UI for a segment using React Error Boundaries. See <a href="https://nextjs.org/docs/app/building-your-application/routing/error-handling" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Error Handling documentation</a>.</li>
-        <li><code class="bg-muted px-1 rounded text-foreground/90">not-found.tsx</code>: Defines UI for when the <code class="bg-muted px-1 rounded text-foreground/90">notFound()</code> function is thrown within a segment. See <a href="https://nextjs.org/docs/app/api-reference/functions/not-found" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">notFound UI documentation</a>.</li>
-        <li><code class="bg-muted px-1 rounded text-foreground/90">route.ts</code>: For creating API endpoints (similar to API routes in the Pages Router). See <a href="https://nextjs.org/docs/app/building-your-application/routing/route-handlers" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Route Handlers documentation</a>.</li>
-      </ul>
-      
-      <h4 class="text-lg font-semibold mt-4 mb-2 text-primary/80">6. Dynamic Segments</h4>
-      <p class="mb-4">You can create dynamic routes by naming a folder with square brackets, e.g., <code class="bg-muted px-1 rounded text-foreground/90">app/blog/[slug]/page.tsx</code>. The <code class="bg-muted px-1 rounded text-foreground/90">slug</code> parameter will be available in your page component's props. Learn more about <a href="https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Dynamic Routes</a>.</p>
-
-      <h4 class="text-lg font-semibold mt-4 mb-2 text-primary/80">7. Route Groups</h4>
-      <p class="mb-4">Route groups allow you to organize your routes without affecting the URL path. Create a folder with parentheses, e.g., <code class="bg-muted px-1 rounded text-foreground/90">app/(marketing)/about/page.tsx</code> will still map to <code class="bg-muted px-1 rounded text-foreground/90">/about</code>. This is useful for creating different layouts for sections of your site. See <a href="https://nextjs.org/docs/app/building-your-application/routing/route-groups" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Route Groups documentation</a>.</p>
-
-      <h2 class="text-2xl font-semibold mt-6 mb-3 text-primary">Data Fetching</h2>
-      <p class="mb-4">With Server Components, data fetching becomes more integrated. You can use <code class="bg-muted px-1 rounded text-foreground/90">async/await</code> directly within your Server Components.</p>
-      <pre class="bg-muted p-3 rounded-md my-4 text-sm overflow-x-auto"><code class="text-foreground/90">async function getData() {
-  const res = await fetch('https://api.example.com/...');
-  if (!res.ok) {
-    throw new Error('Failed to fetch data');
-  }
-  return res.json();
-}
-
-export default async function Page() {
-  const data = await getData();
-  // ... render data
-}</code></pre>
-      <p class="mb-4">Next.js extends the native <code class="bg-muted px-1 rounded text-foreground/90">fetch</code> API to provide automatic caching and revalidation options. This simplifies data fetching patterns and allows fine-grained control over how your data is handled. Consult the <a href="https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Data Fetching documentation</a> for detailed patterns.</p>
-
-      <h2 class="text-2xl font-semibold mt-6 mb-3 text-primary">Server Actions</h2>
-      <p class="mb-4">Server Actions allow you to run server-side code directly from Client Components, often triggered by form submissions or button clicks, without needing to manually create API endpoints. Define an asynchronous function with the <code class="bg-muted px-1 rounded text-foreground/90">"use server"</code> directive.</p>
-      <pre class="bg-muted p-3 rounded-md my-4 text-sm overflow-x-auto"><code class="text-foreground/90">'use server';
-
-export async function submitForm(formData: FormData) {
-  // ... process form data, interact with database
-  const email = formData.get('email');
-  // ...
-}</code></pre>
-      <p class="mb-4">Server Actions simplify mutations and form handling. Explore them further in the <a href="https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Server Actions documentation</a>.</p>
-
-      <h2 class="text-2xl font-semibold mt-6 mb-3 text-primary">Styling Your Application</h2>
-      <p class="mb-4">Next.js supports various styling methods:</p>
-      <ul class="list-disc pl-5 mb-4">
-        <li><strong>Global CSS</strong>: Import stylesheets into your root layout (<code class="bg-muted px-1 rounded text-foreground/90">app/layout.tsx</code>).</li>
-        <li><strong>CSS Modules</strong>: Scope styles locally to components (<code class="bg-muted px-1 rounded text-foreground/90">*.module.css</code>).</li>
-        <li><strong>Tailwind CSS</strong>: A utility-first CSS framework that integrates seamlessly.</li>
-        <li><strong>CSS-in-JS Libraries</strong>: Many popular libraries are compatible.</li>
-      </ul>
-      <p class="mb-4">Choose the method that best suits your project's needs. More information is available on the <a href="https://nextjs.org/docs/app/building-your-application/styling" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Styling documentation page</a>.</p>
-      
-      <h2 class="text-2xl font-semibold mt-6 mb-3 text-primary">Conclusion</h2>
-      <p class="mb-4">Next.js 14, with its App Router and focus on Server Components, provides a robust and efficient platform for modern web development. This guide has touched upon the foundational aspects to get you started. The official Next.js documentation is an invaluable resource for diving deeper into specific features and advanced patterns.</p>
-      <p class="mb-4">Happy coding, and welcome to the world of Next.js 14!</p>
-    `,
+    contentFilePath: 'getting-started-with-nextjs.html',
     author: 'Shiva Dev',
     date: '2024-07-28T10:00:00Z',
     tags: ['Next.js', 'JavaScript', 'Web Development', 'React', 'Development', 'IT', 'Future Tech', 'Cloud', 'VAPT', 'Blockchain', 'AI/ML', 'Cyber Security', 'SOC', 'DFIR', 'Tech News', 'App Router', 'Server Components'],
@@ -124,14 +31,7 @@ export async function submitForm(formData: FormData) {
     slug: 'tailwind-css-deep-dive',
     title: 'Tailwind CSS: A Deep Dive into Utility-First Styling',
     excerpt: 'Explore the power of Tailwind CSS and how it can revolutionize your web development workflow.',
-    content: `
-      <p class="mb-4">Tailwind CSS is a utility-first CSS framework that provides low-level utility classes to build custom designs directly in your markup, without writing much, if any, custom CSS.</p>
-      <h2 class="text-2xl font-semibold mt-6 mb-3 text-primary">Core Concepts</h2>
-      <p class="mb-4">Understand how utilities like <code class="bg-muted px-1 rounded text-foreground/90">flex</code>, <code class="bg-muted px-1 rounded text-foreground/90">pt-4</code> (padding-top), and <code class="bg-muted px-1 rounded text-foreground/90">text-center</code> combine to create complex components. The Just-In-Time (JIT) compiler, now standard, ensures your final CSS bundle includes only the styles you actually use, keeping it remarkably small.</p>
-      <h2 class="text-2xl font-semibold mt-6 mb-3 text-primary">Configuration and Customization</h2>
-      <p class="mb-4">Tailwind is highly customizable via its <code class="bg-muted px-1 rounded text-foreground/90">tailwind.config.js</code> file. You can extend or override the default design system, including colors, spacing, fonts, breakpoints, and much more. This allows you to tailor Tailwind to perfectly match your project's specific aesthetic requirements.</p>
-      <p class="mb-4">This approach encourages rapid prototyping and development while maintaining visual consistency and a structured design language.</p>
-    `,
+    contentFilePath: 'tailwind-css-deep-dive.html',
     author: 'Shiva Dev',
     date: '2024-07-25T14:30:00Z',
     tags: ['TailwindCSS', 'CSS', 'Frontend', 'Web Design', 'Development', 'IT', 'Tech News', 'Cyber Security', 'VAPT', 'SOC', 'DFIR', 'Cloud', 'Blockchain', 'AI/ML', 'Future Tech', 'JavaScript', 'React', 'Next.js'],
@@ -142,14 +42,7 @@ export async function submitForm(formData: FormData) {
     slug: 'mastering-typescript-for-react',
     title: 'Mastering TypeScript for React Development',
     excerpt: 'Enhance your React projects with TypeScript for better type safety and developer experience.',
-    content: `
-      <p class="mb-4">TypeScript adds static typing to JavaScript, enabling developers to catch errors early in the development process and improve overall code maintainability, especially in large and complex React applications.</p>
-      <h2 class="text-2xl font-semibold mt-6 mb-3 text-primary">Key Benefits</h2>
-      <p class="mb-4">The primary advantages of using TypeScript with React include improved autocompletion and IntelliSense, greater confidence during refactoring, and clearer, self-documenting component APIs through explicit props and state typing.</p>
-      <h2 class="text-2xl font-semibold mt-6 mb-3 text-primary">Typing Hooks and Components</h2>
-      <p class="mb-4">Learn how to effectively type React features such as <code class="bg-muted px-1 rounded text-foreground/90">useState</code>, <code class="bg-muted px-1 rounded text-foreground/90">useEffect</code>, custom hooks, and both functional and class components. Understanding common patterns, generic types, and utility types like <code class="bg-muted px-1 rounded text-foreground/90">React.FC</code> can greatly enhance your development workflow.</p>
-      <p class="mb-4">Integrating TypeScript into your React projects leads to more robust, scalable, and developer-friendly applications.</p>
-    `,
+    contentFilePath: 'mastering-typescript-for-react.html',
     author: 'Shiva Dev',
     date: '2024-07-22T09:00:00Z',
     tags: ['TypeScript', 'React', 'JavaScript', 'Frontend', 'Development', 'IT', 'Cyber Security', 'SOC', 'DFIR', 'AI/ML', 'Future Tech', 'Cloud', 'Blockchain', 'Tech News', 'Next.js', 'Web Development', 'VAPT'],
@@ -157,15 +50,57 @@ export async function submitForm(formData: FormData) {
   },
 ];
 
-export const getAllPosts = (): BlogData[] => {
-  return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+// This function returns metadata with contentFilePath, suitable for listing pages
+export const getAllPostsMeta = (): (Omit<BlogData, 'content'> & { contentFilePath: string })[] => {
+  return [...postsData].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 };
+
+
+// Adjusted to use getAllPostsMeta for initial data and keep excerpt/metadata for lists
+export const getAllPosts = (): BlogData[] => {
+  // For list views (like the homepage), we don't need the full file content yet.
+  // We can return the metadata, and the `content` field can remain the filepath or be the excerpt.
+  // For simplicity here, we'll keep the content field as the filepath string for now.
+  // The consuming component (BlogPostCard) uses excerpt, not full content.
+  return getAllPostsMeta().map(postMeta => ({
+      ...postMeta,
+      content: postMeta.contentFilePath // Keep as path for now for lists, actual content loaded by getPostBySlug
+  }));
+};
+
 
 export const getPostBySlug = (slug: string): BlogData | undefined => {
-  return posts.find(post => post.slug === slug);
+  const postMetaData = postsData.find(p => p.slug === slug);
+  if (!postMetaData) {
+    return undefined;
+  }
+
+  const filePath = path.join(process.cwd(), 'src', 'blog-content', postMetaData.contentFilePath);
+  try {
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+    // Return the full post data including the actual HTML content
+    return { 
+      id: postMetaData.id,
+      slug: postMetaData.slug,
+      title: postMetaData.title,
+      excerpt: postMetaData.excerpt,
+      content: fileContent, // Here is the actual HTML content
+      author: postMetaData.author,
+      date: postMetaData.date,
+      tags: postMetaData.tags,
+      imageUrl: postMetaData.imageUrl,
+    };
+  } catch (error) {
+    console.error(`Error reading blog content for ${slug} from ${filePath}:`, error);
+    // Fallback content or throw error
+    return {
+      ...postMetaData,
+      content: '<p>Error: Could not load blog content.</p>',
+    };
+  }
 };
 
-export const getAllTags = (allPosts: BlogData[]): string[] => {
+export const getAllTags = (allPosts: (Omit<BlogData, 'content'> & { contentFilePath?: string })[]): string[] => {
   const allTagsSet = new Set<string>();
   allPosts.forEach(post => {
     post.tags.forEach(tag => allTagsSet.add(tag));
@@ -175,9 +110,16 @@ export const getAllTags = (allPosts: BlogData[]): string[] => {
 
 export const getPostsByTag = (tag: string): BlogData[] => {
   const lowerCaseTag = tag.toLowerCase();
-  return getAllPosts().filter(post => 
-    post.tags.some(t => t.toLowerCase() === lowerCaseTag)
-  );
+  // Use getAllPostsMeta for efficiency, then enrich with full content if needed,
+  // but BlogPostCard only needs excerpt, so this is fine.
+  return getAllPostsMeta()
+    .filter(post => 
+      post.tags.some(t => t.toLowerCase() === lowerCaseTag)
+    )
+    .map(postMeta => ({ // Map back to BlogData structure, content is still filepath
+        ...postMeta,
+        content: postMeta.contentFilePath 
+    })); 
 };
 
 export const searchPosts = (query: string): BlogData[] => {
@@ -185,15 +127,19 @@ export const searchPosts = (query: string): BlogData[] => {
     return [];
   }
   const lowerCaseQuery = query.toLowerCase();
-  // A more robust search might involve stripping HTML from content or having a plain text version.
-  // For now, this simple inclusion check will work.
-  return getAllPosts().filter(post =>
-    post.title.toLowerCase().includes(lowerCaseQuery) ||
-    post.excerpt.toLowerCase().includes(lowerCaseQuery) ||
-    post.content.toLowerCase().includes(lowerCaseQuery) || // Searching raw HTML content
-    post.tags.some(tag => tag.toLowerCase().includes(lowerCaseQuery))
-  );
+  
+  // Search only title, excerpt, and tags for performance.
+  // Reading all file contents for each search would be too slow.
+  return getAllPostsMeta()
+    .filter(post =>
+      post.title.toLowerCase().includes(lowerCaseQuery) ||
+      post.excerpt.toLowerCase().includes(lowerCaseQuery) ||
+      post.tags.some(tag => tag.toLowerCase().includes(lowerCaseQuery))
+    )
+    .map(postMeta => ({ // Map back to BlogData structure, content is still filepath
+        ...postMeta,
+        content: postMeta.contentFilePath
+    }));
 };
-
-
+    
     
