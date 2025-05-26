@@ -1,20 +1,21 @@
 
-import fs from 'fs';
-import path from 'path';
+// Removed: import fs from 'fs';
+// Removed: import path from 'path';
 
 export interface BlogData {
   id: string;
   slug: string;
   title: string;
   excerpt: string;
-  content: string; // Will store filename initially, then actual content after reading
+  content: string; // For lists, this will be contentFilePath; for single post, actual HTML
   author: string;
   date: string; 
   tags: string[];
   imageUrl: string;
 }
 
-const postsData: Omit<BlogData, 'content'> & { contentFilePath: string }[] = [
+// Renamed from postsData and exported
+export const blogPostsMetadata: (Omit<BlogData, 'content'> & { contentFilePath: string })[] = [
   {
     id: '1',
     slug: 'getting-started-with-nextjs',
@@ -52,53 +53,19 @@ const postsData: Omit<BlogData, 'content'> & { contentFilePath: string }[] = [
 
 // This function returns metadata with contentFilePath, suitable for listing pages
 export const getAllPostsMeta = (): (Omit<BlogData, 'content'> & { contentFilePath: string })[] => {
-  return [...postsData].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return [...blogPostsMetadata].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 };
 
 
 // Adjusted to use getAllPostsMeta for initial data and keep excerpt/metadata for lists
 export const getAllPosts = (): BlogData[] => {
-  // For list views (like the homepage), we don't need the full file content yet.
-  // We can return the metadata, and the `content` field can remain the filepath or be the excerpt.
-  // For simplicity here, we'll keep the content field as the filepath string for now.
-  // The consuming component (BlogPostCard) uses excerpt, not full content.
   return getAllPostsMeta().map(postMeta => ({
       ...postMeta,
-      content: postMeta.contentFilePath // Keep as path for now for lists, actual content loaded by getPostBySlug
+      content: postMeta.contentFilePath 
   }));
 };
 
-
-export const getPostBySlug = (slug: string): BlogData | undefined => {
-  const postMetaData = postsData.find(p => p.slug === slug);
-  if (!postMetaData) {
-    return undefined;
-  }
-
-  const filePath = path.join(process.cwd(), 'src', 'blog-content', postMetaData.contentFilePath);
-  try {
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    // Return the full post data including the actual HTML content
-    return { 
-      id: postMetaData.id,
-      slug: postMetaData.slug,
-      title: postMetaData.title,
-      excerpt: postMetaData.excerpt,
-      content: fileContent, // Here is the actual HTML content
-      author: postMetaData.author,
-      date: postMetaData.date,
-      tags: postMetaData.tags,
-      imageUrl: postMetaData.imageUrl,
-    };
-  } catch (error) {
-    console.error(`Error reading blog content for ${slug} from ${filePath}:`, error);
-    // Fallback content or throw error
-    return {
-      ...postMetaData,
-      content: '<p>Error: Could not load blog content.</p>',
-    };
-  }
-};
+// REMOVED getPostBySlug from this file as it uses 'fs'
 
 export const getAllTags = (allPosts: (Omit<BlogData, 'content'> & { contentFilePath?: string })[]): string[] => {
   const allTagsSet = new Set<string>();
@@ -110,13 +77,11 @@ export const getAllTags = (allPosts: (Omit<BlogData, 'content'> & { contentFileP
 
 export const getPostsByTag = (tag: string): BlogData[] => {
   const lowerCaseTag = tag.toLowerCase();
-  // Use getAllPostsMeta for efficiency, then enrich with full content if needed,
-  // but BlogPostCard only needs excerpt, so this is fine.
   return getAllPostsMeta()
     .filter(post => 
       post.tags.some(t => t.toLowerCase() === lowerCaseTag)
     )
-    .map(postMeta => ({ // Map back to BlogData structure, content is still filepath
+    .map(postMeta => ({ 
         ...postMeta,
         content: postMeta.contentFilePath 
     })); 
@@ -128,18 +93,14 @@ export const searchPosts = (query: string): BlogData[] => {
   }
   const lowerCaseQuery = query.toLowerCase();
   
-  // Search only title, excerpt, and tags for performance.
-  // Reading all file contents for each search would be too slow.
   return getAllPostsMeta()
     .filter(post =>
       post.title.toLowerCase().includes(lowerCaseQuery) ||
       post.excerpt.toLowerCase().includes(lowerCaseQuery) ||
       post.tags.some(tag => tag.toLowerCase().includes(lowerCaseQuery))
     )
-    .map(postMeta => ({ // Map back to BlogData structure, content is still filepath
+    .map(postMeta => ({ 
         ...postMeta,
         content: postMeta.contentFilePath
     }));
 };
-    
-    

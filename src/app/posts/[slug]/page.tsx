@@ -3,10 +3,12 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import AppLayout from '@/components/layout/AppLayout';
-import { getPostBySlug, getAllPosts } from '@/lib/blog-data';
+import { blogPostsMetadata, getAllPosts, type BlogData } from '@/lib/blog-data'; // Import blogPostsMetadata
 import { Badge } from '@/components/ui/badge';
 import { CalendarDays, UserCircle, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import fs from 'fs'; // Import fs here
+import path from 'path'; // Import path here
 
 interface PostPageProps {
   params: {
@@ -16,16 +18,39 @@ interface PostPageProps {
 
 // Generate static paths for all blog posts
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  // getAllPosts is client-safe and returns posts with contentFilePath
+  const posts = getAllPosts(); 
   return posts.map(post => ({ slug: post.slug }));
 }
 
 export default function PostPage({ params }: PostPageProps) {
-  const post = getPostBySlug(params.slug);
+  const postMetaData = blogPostsMetadata.find(p => p.slug === params.slug);
 
-  if (!post) {
+  if (!postMetaData) {
     notFound();
   }
+
+  let fileContentHtml = '<p>Error: Could not load blog content.</p>';
+  try {
+    const filePath = path.join(process.cwd(), 'src', 'blog-content', postMetaData.contentFilePath);
+    fileContentHtml = fs.readFileSync(filePath, 'utf-8');
+  } catch (error) {
+    console.error(`Error reading blog content for ${params.slug} from ${postMetaData.contentFilePath}:`, error);
+    // fileContentHtml remains the error message
+  }
+  
+  // Construct the full post object for rendering
+  const post: BlogData = { 
+    id: postMetaData.id,
+    slug: postMetaData.slug,
+    title: postMetaData.title,
+    excerpt: postMetaData.excerpt,
+    content: fileContentHtml, // Use the actual HTML content read from file
+    author: postMetaData.author,
+    date: postMetaData.date,
+    tags: postMetaData.tags,
+    imageUrl: postMetaData.imageUrl,
+  };
 
   return (
     <AppLayout>
@@ -60,7 +85,7 @@ export default function PostPage({ params }: PostPageProps) {
               layout="fill"
               objectFit="cover"
               className="rounded-lg"
-              priority // Prioritize loading of hero image
+              priority 
               data-ai-hint="article theme"
             />
           </div>
