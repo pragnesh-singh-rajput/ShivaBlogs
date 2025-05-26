@@ -1,4 +1,5 @@
 
+import Script from 'next/script'; // Added import for next/script
 import type {Metadata} from 'next';
 import {Geist, Geist_Mono} from 'next/font/google';
 import './globals.css';
@@ -27,6 +28,11 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
+        <Script
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6318553158118544"
+          crossOrigin="anonymous"
+          strategy="afterInteractive" // Loads the script after the page is interactive
+        />
       </body>
     </html>
   );
