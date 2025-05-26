@@ -1,3 +1,4 @@
+
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -5,6 +6,7 @@ import AppLayout from '@/components/layout/AppLayout';
 import { getPostBySlug, getAllPosts } from '@/lib/blog-data';
 import { Badge } from '@/components/ui/badge';
 import { CalendarDays, UserCircle, ArrowLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface PostPageProps {
   params: {
@@ -90,6 +92,3 @@ export default function PostPage({ params }: PostPageProps) {
     </AppLayout>
   );
 }
-
-// Added Button import
-import { Button } from '@/components/ui/button';
