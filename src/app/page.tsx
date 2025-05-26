@@ -17,7 +17,7 @@ export default function HomePage() {
             Pragnesh Singh
           </h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto md:mx-0">
-            Cyber Security Professional & Tech Enthusiast. Dive into my latest articles, insights, and explorations at Tech Prastish. Discover more about my professional journey and projects on my portfolio.
+            Cyber Security Professional & Tech Enthusiast. Dive into my latest articles, insights, and explorations. Discover more about my professional journey and projects on my portfolio.
           </p>
           <Button asChild size="lg" className="mt-8 bg-accent hover:bg-accent/90 text-accent-foreground">
             <Link href="https://pragneshsingh.works/" target="_blank" rel="noopener noreferrer">
