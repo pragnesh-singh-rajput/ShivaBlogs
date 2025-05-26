@@ -133,7 +133,7 @@ export default function SiteHeader() {
               <form onSubmit={handleNewsletterSubmit}>
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="email" className="text-right text-sm col-span-1">
+                    <Label htmlFor="email" className="text-left text-sm col-span-1"> {/* Changed text-right to text-left */}
                       Email
                     </Label>
                     <Input
@@ -146,7 +146,7 @@ export default function SiteHeader() {
                       required
                     />
                   </div>
-                  <div className="flex items-center space-x-2 mt-2"> {/* Removed col-start-2 col-span-3 */}
+                  <div className="flex items-center space-x-2 mt-2">
                     <Checkbox
                       id="terms"
                       checked={agreedToTerms}
@@ -194,5 +194,4 @@ export default function SiteHeader() {
     </header>
   );
 }
-
     
