@@ -1,7 +1,7 @@
 // Newsletter API configuration and utilities
 export const RESEND_CONFIG = {
   API_URL: 'https://api.resend.com',
-  AUDIENCE_ID: '0b16dbe7-4b46-4727-95d4-867445b91406',
+  AUDIENCE_ID: process.env.RESEND_AUDIENCE_ID,
   // Note: In production, this should be stored as an environment variable
   // For now, we'll handle this in the API routes
 };
