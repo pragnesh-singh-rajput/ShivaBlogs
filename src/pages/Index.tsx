@@ -1,9 +1,9 @@
-
 import React from 'react';
 import Layout from '../components/Layout';
 import HeroSection from '../components/HeroSection';
 import BlogCard from '../components/BlogCard';
 import SearchBar from '../components/SearchBar';
+import NewsletterSubscription from '../components/NewsletterSubscription';
 import { useBlogPosts } from '../hooks/useBlogPosts';
 
 const Index: React.FC = () => {
@@ -97,27 +97,8 @@ const Index: React.FC = () => {
       {!searchTerm && !loading && (
         <section className="py-16 border-t border-primary/10">
           <div className="container mx-auto px-4">
-            <div className="max-w-2xl mx-auto text-center">
-              <div className="cyber-card p-8 animate-fade-in-up">
-                <h3 className="text-2xl font-bold mb-4 glow-text">Stay Secure, Stay Informed</h3>
-                <p className="text-muted-foreground mb-6">
-                  Get the latest cybersecurity insights, vulnerability reports, and security best practices 
-                  delivered directly to your inbox.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                  <input 
-                    type="email" 
-                    placeholder="Enter your email"
-                    className="flex-1 px-4 py-3 bg-background border border-primary/30 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
-                  />
-                  <button className="cyber-button whitespace-nowrap">
-                    Subscribe
-                  </button>
-                </div>
-                <p className="text-xs text-muted-foreground mt-4">
-                  No spam, only quality security content. Unsubscribe anytime.
-                </p>
-              </div>
+            <div className="max-w-2xl mx-auto">
+              <NewsletterSubscription className="animate-fade-in-up" />
             </div>
           </div>
         </section>

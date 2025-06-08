@@ -1,4 +1,3 @@
-
 # 🚀 ShivaBlogs - Cybersecurity & Tech Blog
 
 [![Built with Love](https://img.shields.io/badge/Built%20with-❤️-red.svg)](https://pragneshsingh.works/)
@@ -34,6 +33,12 @@ Welcome to **ShivaBlogs** - your ultimate destination for cutting-edge cybersecu
 - **Reading time estimates** to help you plan your learning sessions
 - **Featured articles** highlighting the most important content
 
+### 📧 Newsletter Integration
+- **Resend API integration** for professional email marketing
+- **Smart subscription management** with automatic name extraction
+- **Unsubscribe functionality** with proper contact management
+- **Email validation** and error handling
+
 ### ⚡ Performance & SEO
 - **Lightning-fast loading** with optimized React components
 - **SEO optimized** for maximum visibility on search engines
@@ -52,6 +57,7 @@ This blog is built with modern web technologies to ensure the best performance a
 - 🚀 **Vite** - Next-generation frontend build tool
 - 🔍 **React Query** - Powerful data fetching and state management
 - 🎯 **React Router** - Declarative routing for single-page applications
+- 📧 **Resend API** - Professional email service for newsletters
 
 ## 🚀 Getting Started
 
@@ -77,14 +83,25 @@ Before you begin, ensure you have the following installed:
    yarn install
    ```
 
-3. **Start the development server**
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Edit `.env` and add your Resend API key:
+   ```
+   RESEND_API_KEY=re_xxxxxxxxx
+   RESEND_AUDIENCE_ID=0b16dbe7-4b46-4727-95d4-867445b91406
+   ```
+
+4. **Start the development server**
    ```bash
    npm run dev
    # or
    yarn dev
    ```
 
-4. **Open your browser**
+5. **Open your browser**
    ```
    Navigate to http://localhost:5173
    ```
@@ -98,6 +115,31 @@ Before you begin, ensure you have the following installed:
 | `npm run preview` | 👀 Preview production build |
 | `npm run lint` | 🔍 Lint code with ESLint |
 
+## 📧 Newsletter Configuration
+
+### Setting up Resend
+
+1. **Create a Resend account** at [resend.com](https://resend.com)
+2. **Get your API key** from the dashboard
+3. **Create an audience** and note the audience ID
+4. **Update environment variables** with your credentials
+
+### API Endpoints
+
+The newsletter functionality includes two main endpoints:
+
+- **Subscribe**: `POST /api/newsletter/subscribe`
+- **Unsubscribe**: `POST /api/newsletter/unsubscribe`
+
+### Features
+
+- ✅ **Email validation** and sanitization
+- ✅ **Automatic name extraction** from email addresses
+- ✅ **Duplicate handling** with resubscription support
+- ✅ **Error handling** with user-friendly messages
+- ✅ **Loading states** and success feedback
+- ✅ **CORS support** for cross-origin requests
+
 ## 📂 Project Structure
 
 ```
@@ -106,13 +148,17 @@ src/
 │   ├── 🎨 Layout.tsx      # Main layout wrapper
 │   ├── 📰 BlogCard.tsx    # Blog post preview cards
 │   ├── 🔍 SearchBar.tsx   # Search functionality
+│   ├── 📧 NewsletterSubscription.tsx # Newsletter signup
+│   ├── 📧 UnsubscribeForm.tsx # Newsletter unsubscribe
 │   └── 🎭 ui/             # Shadcn/ui components
 ├── 📁 pages/              # Page components
 │   ├── 🏠 Index.tsx       # Homepage
 │   ├── 📖 BlogPost.tsx    # Individual blog post
-│   └── 👤 About.tsx       # About page
+│   ├── 👤 About.tsx       # About page
+│   └── 📧 Unsubscribe.tsx # Unsubscribe page
 ├── 📁 hooks/              # Custom React hooks
 ├── 📁 utils/              # Utility functions
+├── 📁 api/                # API utilities and types
 ├── 📁 blogs/              # MDX blog content
 └── 🎨 styles/             # CSS and styling
 ```
@@ -152,6 +198,7 @@ src/
 - 🔐 **HTTPS enforcement** in production
 - 🚫 **Input sanitization** for all user interactions
 - 🔍 **Regular dependency updates** for vulnerability patches
+- 📧 **Email validation** and rate limiting for newsletter
 
 ## 🌐 SEO Optimization
 
@@ -162,6 +209,26 @@ This blog is optimized for search engines with:
 - 📱 **Mobile-first responsive design**
 - ⚡ **Core Web Vitals optimization**
 - 🔗 **Internal linking strategy** for better crawling
+
+## 🚀 Deployment
+
+### Environment Variables
+
+Make sure to set these environment variables in your deployment platform:
+
+```bash
+RESEND_API_KEY=your_resend_api_key
+RESEND_AUDIENCE_ID=your_audience_id
+NODE_ENV=production
+```
+
+### Deployment Platforms
+
+This project can be deployed to:
+
+- **Vercel** (recommended for serverless functions)
+- **Netlify** (with Netlify Functions)
+- **Railway** or **Render** (for full-stack deployment)
 
 ## 🤝 Contributing
 
@@ -199,6 +266,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - 🛡️ **Cybersecurity Community** for continuous knowledge sharing
 - 🎨 **Design Inspiration** from cyberpunk aesthetics and modern web design
 - ⚡ **Performance Optimizations** inspired by web.dev best practices
+- 📧 **Resend Team** for providing excellent email infrastructure
 
 ---
 
