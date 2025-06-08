@@ -1,0 +1,129 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system with cybersecurity theme */
+
+@layer base {
+  :root {
+    --background: 220 13% 9%;
+    --foreground: 210 40% 98%;
+
+    --card: 220 13% 11%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 220 13% 9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 142 76% 36%;
+    --primary-foreground: 220 13% 9%;
+
+    --secondary: 220 13% 15%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 220 13% 15%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 142 76% 36%;
+    --accent-foreground: 220 13% 9%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 13% 20%;
+    --input: 220 13% 15%;
+    --ring: 142 76% 36%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 220 13% 9%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 142 76% 36%;
+    --sidebar-primary-foreground: 220 13% 9%;
+    --sidebar-accent: 220 13% 15%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 220 13% 20%;
+    --sidebar-ring: 142 76% 36%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    background-image: 
+      radial-gradient(circle at 20% 80%, rgba(0, 255, 65, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(0, 255, 65, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(0, 255, 65, 0.03) 0%, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  /* Matrix rain effect */
+  .matrix-bg::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(transparent, rgba(0, 255, 65, 0.02));
+    z-index: -1;
+    animation: matrix-rain 8s linear infinite;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.8);
+  }
+}
+
+@layer components {
+  .cyber-card {
+    @apply bg-card/50 backdrop-blur-sm border border-primary/20 rounded-lg;
+    box-shadow: 0 4px 15px rgba(0, 255, 65, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .cyber-card:hover {
+    @apply border-primary/40;
+    box-shadow: 0 8px 25px rgba(0, 255, 65, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .cyber-button {
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-md font-medium;
+    @apply hover:bg-primary/90 transition-all duration-300;
+    @apply border border-primary/50 hover:border-primary;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+  }
+
+  .cyber-button:hover {
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+  }
+
+  .matrix-text {
+    @apply font-mono text-matrix-green;
+    text-shadow: 0 0 5px rgba(0, 255, 65, 0.7);
+  }
+}
