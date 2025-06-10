@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Book, Search, X, ExternalLink } from 'lucide-react';
@@ -64,16 +65,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 }`}
               >
                 About
-              </Link>
-              <Link 
-                to="/unsubscribe" 
-                className={`px-4 py-2 rounded-md transition-all duration-300 ${
-                  location.pathname === '/unsubscribe' 
-                    ? 'text-primary bg-primary/10 border border-primary/30' 
-                    : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
-                }`}
-              >
-                Unsubscribe
               </Link>
               <a 
                 href="https://pragneshsingh.works/" 
