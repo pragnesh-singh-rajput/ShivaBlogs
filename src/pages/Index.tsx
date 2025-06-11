@@ -1,13 +1,33 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import HeroSection from '../components/HeroSection';
 import BlogCard from '../components/BlogCard';
 import SearchBar from '../components/SearchBar';
+import CategoryFilter from '../components/CategoryFilter';
+import NewsletterForm from '../components/NewsletterForm';
 import { useBlogPosts } from '../hooks/useBlogPosts';
+import { TrendingUp, Zap, Shield } from 'lucide-react';
 
 const Index: React.FC = () => {
   const { blogPosts, searchTerm, setSearchTerm, featuredPost, regularPosts, loading } = useBlogPosts();
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  // Get unique categories
+  const categories = Array.from(new Set(blogPosts.map(post => post.category)));
+
+  // Filter posts by category
+  const filteredPosts = selectedCategory
+    ? blogPosts.filter(post => post.category === selectedCategory)
+    : blogPosts;
+
+  const filteredRegularPosts = selectedCategory
+    ? regularPosts.filter(post => post.category === selectedCategory)
+    : regularPosts;
+
+  const filteredFeaturedPost = selectedCategory
+    ? (featuredPost && featuredPost.category === selectedCategory ? featuredPost : null)
+    : featuredPost;
 
   return (
     <Layout>
@@ -19,21 +39,43 @@ const Index: React.FC = () => {
           <SearchBar 
             searchTerm={searchTerm}
             onSearchChange={setSearchTerm}
-            resultsCount={blogPosts.length}
+            resultsCount={filteredPosts.length}
           />
         </div>
       </section>
 
+      {/* Category Filter */}
+      {!loading && (
+        <section className="py-6 border-b border-primary/10">
+          <div className="container mx-auto px-4">
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold mb-3 flex items-center">
+                <Shield className="h-5 w-5 mr-2 text-primary" />
+                Filter by Category
+              </h3>
+              <CategoryFilter
+                categories={categories}
+                selectedCategory={selectedCategory}
+                onCategorySelect={setSelectedCategory}
+              />
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Featured Post Section */}
-      {featuredPost && !searchTerm && !loading && (
+      {filteredFeaturedPost && !searchTerm && !loading && (
         <section className="py-12 border-b border-primary/10">
           <div className="container mx-auto px-4">
             <div className="mb-8">
-              <h2 className="text-3xl font-bold mb-2 glow-text">Featured Article</h2>
+              <h2 className="text-3xl font-bold mb-2 glow-text flex items-center">
+                <TrendingUp className="h-8 w-8 mr-3 text-primary" />
+                Featured Article
+              </h2>
               <p className="text-muted-foreground">Latest insights from the cybersecurity frontlines</p>
             </div>
             <div className="max-w-4xl mx-auto">
-              <BlogCard post={featuredPost} index={0} />
+              <BlogCard post={filteredFeaturedPost} index={0} />
             </div>
           </div>
         </section>
@@ -43,12 +85,15 @@ const Index: React.FC = () => {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="mb-12">
-            <h2 className="text-3xl font-bold mb-2">
-              {searchTerm ? 'Search Results' : 'Recent Posts'}
+            <h2 className="text-3xl font-bold mb-2 flex items-center">
+              <Zap className="h-8 w-8 mr-3 text-primary" />
+              {searchTerm ? 'Search Results' : selectedCategory ? `${selectedCategory} Posts` : 'Recent Posts'}
             </h2>
             <p className="text-muted-foreground">
               {searchTerm 
                 ? `Showing results for "${searchTerm}"`
+                : selectedCategory
+                ? `All posts in ${selectedCategory}`
                 : 'Stay updated with the latest cybersecurity trends and techniques'
               }
             </p>
@@ -68,21 +113,27 @@ const Index: React.FC = () => {
                 </div>
               ))}
             </div>
-          ) : blogPosts.length > 0 ? (
+          ) : filteredPosts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {(searchTerm ? blogPosts : regularPosts).map((post, index) => (
+              {(searchTerm ? filteredPosts : filteredRegularPosts).map((post, index) => (
                 <BlogCard key={post.id} post={post} index={index} />
               ))}
             </div>
-          ) : searchTerm ? (
+          ) : searchTerm || selectedCategory ? (
             <div className="text-center py-12">
               <div className="cyber-card p-8 max-w-md mx-auto">
                 <h3 className="text-xl font-semibold mb-2">No Results Found</h3>
                 <p className="text-muted-foreground mb-4">
-                  Try searching with different keywords or browse all posts.
+                  {searchTerm 
+                    ? 'Try searching with different keywords or browse all posts.'
+                    : 'No posts found in this category.'
+                  }
                 </p>
                 <button 
-                  onClick={() => setSearchTerm('')}
+                  onClick={() => {
+                    setSearchTerm('');
+                    setSelectedCategory(null);
+                  }}
                   className="cyber-button"
                 >
                   Show All Posts
@@ -94,30 +145,11 @@ const Index: React.FC = () => {
       </section>
 
       {/* Newsletter Section */}
-      {!searchTerm && !loading && (
+      {!searchTerm && !selectedCategory && !loading && (
         <section className="py-16 border-t border-primary/10">
           <div className="container mx-auto px-4">
-            <div className="max-w-2xl mx-auto text-center">
-              <div className="cyber-card p-8 animate-fade-in-up">
-                <h3 className="text-2xl font-bold mb-4 glow-text">Stay Secure, Stay Informed</h3>
-                <p className="text-muted-foreground mb-6">
-                  Get the latest cybersecurity insights, vulnerability reports, and security best practices 
-                  delivered directly to your inbox.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                  <input 
-                    type="email" 
-                    placeholder="Enter your email"
-                    className="flex-1 px-4 py-3 bg-background border border-primary/30 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
-                  />
-                  <button className="cyber-button whitespace-nowrap">
-                    Subscribe
-                  </button>
-                </div>
-                <p className="text-xs text-muted-foreground mt-4">
-                  No spam, only quality security content. Unsubscribe anytime.
-                </p>
-              </div>
+            <div className="max-w-2xl mx-auto">
+              <NewsletterForm />
             </div>
           </div>
         </section>

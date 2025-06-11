@@ -1,41 +1,64 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { ArrowLeft, Calendar, Clock, Share2 } from 'lucide-react';
 import Layout from '../components/Layout';
-import MarkdownRenderer from '../components/MarkdownRenderer';
 import SEO from '../components/SEO';
-import { Calendar, ArrowUp, Book } from 'lucide-react';
-import { loadBlogPost } from '../utils/mdxLoader';
+import MarkdownRenderer from '../components/MarkdownRenderer';
+import SocialShare from '../components/SocialShare';
+import RelatedPosts from '../components/RelatedPosts';
+import TableOfContents from '../components/TableOfContents';
+import ReadingProgress from '../components/ReadingProgress';
+import { loadBlogPost, loadAllBlogPosts } from '../utils/mdxLoader';
 import { BlogPost as BlogPostType } from '../hooks/useBlogPosts';
 
 const BlogPost: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [post, setPost] = useState<BlogPostType | null>(null);
-  const [content, setContent] = useState<string>('');
+  const [allPosts, setAllPosts] = useState<BlogPostType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
 
   useEffect(() => {
-    const loadPost = async () => {
+    const loadData = async () => {
       if (!id) {
+        setError('Post ID not found');
         setLoading(false);
         return;
       }
 
       try {
         setLoading(true);
-        const result = await loadBlogPost(id);
-        if (result) {
-          setPost(result.post);
-          setContent(result.content);
+        // Load both the current post and all posts for related posts
+        const [postData, postsData] = await Promise.all([
+          loadBlogPost(id),
+          loadAllBlogPosts()
+        ]);
+        
+        if (postData) {
+          // Properly merge the content into the post object
+          setPost({
+            ...postData.post,
+            content: postData.content
+          });
+        } else {
+          setError('Post not found');
         }
-      } catch (error) {
-        console.error('Error loading blog post:', error);
+        
+        setAllPosts(postsData);
+      } catch (err) {
+        console.error('Error loading post:', err);
+        setError('Failed to load post');
       } finally {
         setLoading(false);
       }
     };
 
-    loadPost();
+    loadData();
   }, [id]);
 
   if (loading) {
@@ -44,12 +67,12 @@ const BlogPost: React.FC = () => {
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-4xl mx-auto">
             <div className="animate-pulse">
-              <div className="h-8 bg-primary/10 rounded mb-4"></div>
-              <div className="h-12 bg-primary/10 rounded mb-6"></div>
+              <div className="h-8 bg-primary/10 rounded mb-4 w-3/4"></div>
+              <div className="h-6 bg-primary/10 rounded mb-8 w-1/2"></div>
               <div className="space-y-4">
-                <div className="h-4 bg-primary/10 rounded"></div>
-                <div className="h-4 bg-primary/10 rounded"></div>
-                <div className="h-4 bg-primary/10 rounded w-3/4"></div>
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i} className="h-4 bg-primary/10 rounded"></div>
+                ))}
               </div>
             </div>
           </div>
@@ -58,17 +81,13 @@ const BlogPost: React.FC = () => {
     );
   }
 
-  if (!post) {
+  if (error || !post) {
     return (
       <Layout>
-        <SEO 
-          title="Post Not Found - ShivaBlogs"
-          description="The blog post you're looking for doesn't exist."
-        />
         <div className="container mx-auto px-4 py-16">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl font-bold mb-4">Post Not Found</h1>
-            <p className="text-muted-foreground mb-8">The blog post you're looking for doesn't exist.</p>
+          <div className="text-center">
+            <h1 className="text-2xl font-bold mb-4">Post Not Found</h1>
+            <p className="text-muted-foreground mb-8">{error || 'The requested blog post could not be found.'}</p>
             <Link to="/" className="cyber-button">
               Back to Home
             </Link>
@@ -78,71 +97,86 @@ const BlogPost: React.FC = () => {
     );
   }
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+  };
+
+  const currentUrl = window.location.href;
+
   return (
     <Layout>
       <SEO 
-        title={`${post.title} - ShivaBlogs`}
+        title={post.title}
         description={post.excerpt}
-        keywords={`${post.category}, cybersecurity, tech blog, ${post.title}, Pragnesh Singh Rajput`}
         type="article"
-        publishedTime={post.date}
-        category={post.category}
       />
-      <article className="py-8">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            {/* Back Navigation */}
-            <Link 
-              to="/" 
-              className="inline-flex items-center text-primary hover:text-primary/80 transition-colors mb-8 group"
-            >
-              <ArrowUp className="h-4 w-4 mr-2 rotate-180 group-hover:-translate-x-1 transition-transform" />
-              Back to Blog
-            </Link>
+      <ReadingProgress />
+      
+      <article className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Back Navigation */}
+          <Link 
+            to="/" 
+            className="inline-flex items-center text-primary hover:text-primary/80 transition-colors mb-8 group"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+            Back to Blog
+          </Link>
 
-            {/* Post Header */}
-            <header className="mb-12 animate-fade-in-up">
-              <div className="flex items-center justify-between mb-6">
-                <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full border border-primary/30">
-                  {post.category}
-                </span>
-                <div className="flex items-center text-muted-foreground text-sm">
+          {/* Article Header */}
+          <header className="mb-12">
+            <div className="flex items-center gap-4 mb-6">
+              <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full border border-primary/30">
+                {post.category}
+              </span>
+              <div className="flex items-center text-muted-foreground text-sm gap-4">
+                <div className="flex items-center">
                   <Calendar className="h-4 w-4 mr-1" />
-                  {new Date(post.date).toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'short', 
-                    day: 'numeric' 
-                  })}
-                  <span className="mx-2">•</span>
-                  <Book className="h-4 w-4 mr-1" />
+                  {formatDate(post.date)}
+                </div>
+                <div className="flex items-center">
+                  <Clock className="h-4 w-4 mr-1" />
                   {post.readTime}
                 </div>
               </div>
-
-              <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 glow-text">
-                {post.title}
-              </h1>
-            </header>
-
-            {/* Post Content */}
-            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <div className="cyber-card p-8">
-                <MarkdownRenderer content={content} />
-              </div>
             </div>
 
-            {/* Post Footer */}
-            <footer className="mt-12 pt-8 border-t border-primary/20 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <div className="flex items-center justify-between">
-                <div className="text-muted-foreground">
-                  <p>Written with ⚡ by a cybersecurity professional</p>
-                </div>
-                <Link to="/" className="cyber-button">
-                  More Articles
-                </Link>
-              </div>
-            </footer>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 glow-text leading-tight">
+              {post.title}
+            </h1>
+
+            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+              {post.excerpt}
+            </p>
+
+            <SocialShare 
+              title={post.title}
+              url={currentUrl}
+              excerpt={post.excerpt}
+            />
+          </header>
+
+          {/* Article Content - Centered with border */}
+          <div className="cyber-card p-8 mb-12">
+            <div className="prose prose-invert prose-lg max-w-none">
+              <MarkdownRenderer content={post.content || ''} />
+            </div>
           </div>
+
+          {/* Table of Contents - Fixed position */}
+          <TableOfContents content={post.content || ''} />
+
+          {/* Related Posts */}
+          <RelatedPosts 
+            currentPost={post} 
+            allPosts={allPosts}
+            maxPosts={3}
+          />
         </div>
       </article>
     </Layout>

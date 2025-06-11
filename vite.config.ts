@@ -1,3 +1,4 @@
+
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
@@ -19,4 +20,12 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  assetsInclude: ['**/*.mdx'],
+  define: {
+    __VITE_MDX_FILES__: JSON.stringify({
+      'advanced-penetration-testing-techniques': '/src/blogs/advanced-penetration-testing-techniques.mdx',
+      'zero-trust-architecture-implementation': '/src/blogs/zero-trust-architecture-implementation.mdx',
+      'ai-powered-threat-detection': '/src/blogs/ai-powered-threat-detection.mdx',
+    })
+  }
 }));

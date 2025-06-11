@@ -22,8 +22,11 @@ export const useBlogPosts = () => {
   useEffect(() => {
     const loadPosts = async () => {
       try {
+        console.log('Starting to load blog posts...');
         setLoading(true);
         const posts = await loadAllBlogPosts();
+        console.log('Loaded blog posts:', posts);
+        console.log('Number of posts loaded:', posts.length);
         setBlogPosts(posts);
         setFilteredPosts(posts);
       } catch (error) {
@@ -37,6 +40,9 @@ export const useBlogPosts = () => {
   }, []);
 
   useEffect(() => {
+    console.log('Filtering posts with searchTerm:', searchTerm);
+    console.log('Available posts:', blogPosts.length);
+    
     if (!searchTerm.trim()) {
       setFilteredPosts(blogPosts);
     } else {
@@ -45,16 +51,28 @@ export const useBlogPosts = () => {
         post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
         post.category.toLowerCase().includes(searchTerm.toLowerCase())
       );
+      console.log('Filtered posts:', filtered.length);
       setFilteredPosts(filtered);
     }
   }, [searchTerm, blogPosts]);
+
+  const featuredPost = filteredPosts.find(post => post.featured);
+  const regularPosts = filteredPosts.filter(post => !post.featured);
+
+  console.log('Hook state:', {
+    totalPosts: blogPosts.length,
+    filteredPosts: filteredPosts.length,
+    featuredPost: featuredPost?.title || 'None',
+    regularPosts: regularPosts.length,
+    loading
+  });
 
   return {
     blogPosts: filteredPosts,
     searchTerm,
     setSearchTerm,
-    featuredPost: filteredPosts.find(post => post.featured),
-    regularPosts: filteredPosts.filter(post => !post.featured),
+    featuredPost,
+    regularPosts,
     loading
   };
 };
