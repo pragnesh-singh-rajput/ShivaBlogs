@@ -1,4 +1,6 @@
 
+import { supabase } from '@/integrations/supabase/client';
+
 export interface SubscribeRequest {
   email: string;
   firstName: string;
@@ -6,10 +8,7 @@ export interface SubscribeRequest {
 
 export const subscribeToNewsletter = async (data: SubscribeRequest) => {
   try {
-    console.log('Subscribing to newsletter...');
-    
-    // Simulate API delay for realistic feel
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    console.log('Subscribing to newsletter with Supabase Edge Function...');
     
     // Basic validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -20,9 +19,21 @@ export const subscribeToNewsletter = async (data: SubscribeRequest) => {
     if (!data.firstName.trim()) {
       throw new Error('First name is required');
     }
-    
-    // Simulate successful subscription
-    console.log('Successfully subscribed:', data);
+
+    // Call our Supabase Edge Function
+    const { data: result, error } = await supabase.functions.invoke('newsletter-subscribe', {
+      body: {
+        email: data.email.trim(),
+        firstName: data.firstName.trim(),
+      },
+    });
+
+    if (error) {
+      console.error('Supabase function error:', error);
+      throw new Error(error.message || 'Subscription failed');
+    }
+
+    console.log('Successfully subscribed:', result);
     
     return {
       success: true,
