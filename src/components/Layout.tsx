@@ -120,7 +120,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="container mx-auto px-4 py-8">
           <div className="text-center">
             <p className="text-muted-foreground mb-2">
-              © 2024 ShivaBlogs by <a href="https://pragneshsingh.works/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 transition-colors">Pragnesh Singh Rajput</a>. Securing the digital world, one blog at a time.
+              © 2025 ShivaBlogs by <a href="https://pragneshsingh.works/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 transition-colors">Pragnesh Singh Rajput</a>. Securing the digital world, one blog at a time.
             </p>
             <p className="text-sm text-muted-foreground">
               Cybersecurity • Technology • Linux • Penetration Testing
